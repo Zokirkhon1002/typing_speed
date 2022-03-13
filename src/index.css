@@ -6,8 +6,36 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@media (max-width: 408px){
+  label {
+    font-size: 14px;
+  }
+  .foo {
+    height: 100px;
+    width: 200px;
+    right: 100px;
+  }
+}
+@media (max-width: 381px){
+  
+  .control.is-expand.section {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    width: 100%;
+  }
+  .control.is-expand.section span {
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+  .control.is-expand.section input[type="radio"]{
+    left: 20%;
+    top: 27px;
+    font-size: 16px;
+  }
+  .control.is-expand.section label {
+    top: 40px;
+    font-size: 20px;
+  }
 }
