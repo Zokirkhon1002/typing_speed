@@ -6,7 +6,22 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
-  const [time, setTIme] = useState(60);
+  const isPlayingClickFunc = ()=>{
+    let audioClick = document.getElementsByClassName("klik")[0];
+    audioClick.play()
+  }
+  const isPlayingCorrectFunc = ()=>{
+    let audioCorrect = document.getElementsByClassName("korrekt")[0];
+    audioCorrect.play()
+  }
+  const isPlayingInCorrectFunc = ()=>{
+    let audioInCorrect = document.getElementsByClassName("inkorrekt")[0];
+    audioInCorrect.play()
+  }
+
+ 
+
+  const [time, setTIme] = useState(11);
   const [nOfWords, setNOfWords] = useState(200);
   const [word, setWords] = useState([]);
   const [checked, setChecked] = useState(false);
@@ -24,6 +39,8 @@ function App() {
   const [start, setStart] = useState("block");
   const textInput = useRef(null);
 
+  // only messages
+
   const handleStart = () => {
     setStyleName("block");
     setStyleName2("none");
@@ -37,23 +54,9 @@ function App() {
           clearInterval(interval);
           setShowResults("block");
           setStyleName("none");
-        } else {
+        }
+        if (prev > 0) {
           return prev - 1;
-        }
-        if (prev === 30) {
-          toast.warn("Your time is remaining : 30!", {
-            icon: "⚠️",
-          });
-        }
-        if (prev === 20) {
-          toast.warn("Your time is remaining : 20!", {
-            icon: "⚠️",
-          });
-        }
-        if (prev === 10) {
-          toast.warn("Your time is remaining : 10!", {
-            icon: "⚠️",
-          });
         }
       });
     }, 1000);
@@ -64,6 +67,7 @@ function App() {
     const doesItMatch = wordToCompare === currentInput.trim().toLowerCase();
 
     if (doesItMatch) {
+      isPlayingCorrectFunc();
       setCorrect(correct + 1);
       correct === 5 && toast.success("Good!", { icon: "🚀" });
       correct === 10 && toast.success("Fine!", { icon: "🚀" });
@@ -73,11 +77,14 @@ function App() {
       correct === 35 && toast.success("Astonishing!", { icon: "🚀" });
       correct === 38 && toast.success("Cool!", { icon: "🚀" });
       correct === 40 && toast.success("Master!", { icon: "🚀" });
+      showResults === "block" &&
+        toast.info("Made by Zokikhon!", { icon: "🚀" });
 
       // let arr = [...word];
       // arr[currentWordIndex] = `${wordToCompare} `
       // setWords(arr)
     } else {
+      isPlayingInCorrectFunc();
       setInCorrect(inCorrect + 1);
     }
   };
@@ -125,22 +132,22 @@ function App() {
     ) {
       if (letter === currentChar) {
         return "has-background-success";
-      }
-      else if(currentChar.toLowerCase() === "backspace"){
+      } else if (currentChar.toLowerCase() === "backspace") {
         return "has-background-info";
-      }
-      else {
+      } else {
         return "has-background-danger";
       }
-    }
-    else if(wordIdx === currentWordIndex && currentCharIndex >= word[currentWordIndex].length) {
+    } else if (
+      wordIdx === currentWordIndex &&
+      currentCharIndex >= word[currentWordIndex].length
+    ) {
       return "has-background-danger";
     }
     // else if(wordIdx === currentWordIndex && currentCharIndex === word[currentWordIndex].length) {
     //   return "has-background-info is-info";
     // }
     else {
-      return ""
+      return "";
     }
   }
 
@@ -153,6 +160,76 @@ function App() {
       textInput.current.focus();
     }
   }, [status]);
+
+  // useEffect(() => {
+  //   isPlayingClick ? klikk.play() : klikk.pause();
+  //   isPlayingCorrect ? korrektt.play() : korrektt.pause();
+  //   isPlayingInCorrect ? inkorrectt.play() : inkorrectt.pause();
+  // }, [
+  //   isPlayingClick,
+  //   isPlayingCorrect,
+  //   isPlayingInCorrect,
+  //   klikk,
+  //   korrektt,
+  //   inkorrectt,
+  // ]);
+
+
+  useEffect(() => {
+    if (time === 0) {
+      setTimeout(() => {
+        toast.info("Made by Zokirkhon!", {
+          icon: "🚀",
+        });
+      }, 1000);
+      setTimeout(() => {
+        toast.info("Let's try one more time!", {
+          icon: "💪",
+        });
+      }, 7000);
+      if (correct <= 10) {
+        setTimeout(() => {
+          toast.info("Your result is not good!", {
+            icon: "💪",
+          });
+        }, 11000);
+        setTimeout(() => {
+          toast.info("Try it now again!", {
+            icon: "💪",
+          });
+        }, 16000);
+      }
+      if (correct >= 10 && correct <= 20) {
+        setTimeout(() => {
+          toast.info("Your result is not bad!", {
+            icon: "💪",
+          });
+        }, 11000);
+        setTimeout(() => {
+          toast.info("But You have to train again!", {
+            icon: "💪",
+          });
+        }, 16000);
+      }
+      if (correct > 20) {
+        setTimeout(() => {
+          toast.info("Your result is Cool!", {
+            icon: "💪",
+          });
+        }, 11000);
+        setTimeout(() => {
+          toast.info("Do you want to again?!", {
+            icon: "💪",
+          });
+        }, 16000);
+      }
+    }
+    if (time === 20) {
+      toast.info("20 seconds left!", {
+        icon: "⚠️",
+      });
+    }
+  }, [time, correct, inCorrect]);
 
   return (
     <div className="App">
@@ -185,7 +262,10 @@ function App() {
               value={200}
               name="words"
               onChange={(e) => setChecked(e.target.checked)}
-              onClick={(e) => setNOfWords(e.target.value)}
+              onClick={(e) => {
+                setNOfWords(e.target.value);
+                isPlayingClickFunc();
+              }}
             />
             <label htmlFor="words" style={{ margin: "5px" }}>
               {200} words,
@@ -199,7 +279,10 @@ function App() {
               value={400}
               name="words"
               onChange={(e) => setChecked(e.target.checked)}
-              onClick={(e) => setNOfWords(e.target.value)}
+              onClick={(e) => {
+                setNOfWords(e.target.value);
+                isPlayingClickFunc();
+              }}
             />
             <label htmlFor="words" style={{ margin: "5px" }}>
               {400} words
@@ -213,7 +296,10 @@ function App() {
               value={600}
               name="words"
               onChange={(e) => setChecked(e.target.checked)}
-              onClick={(e) => setNOfWords(e.target.value)}
+              onClick={(e) => {
+                setNOfWords(e.target.value);
+                isPlayingClickFunc();
+              }}
             />
             <label htmlFor="words" style={{ margin: "5px" }}>
               {600} words
@@ -236,7 +322,10 @@ function App() {
               value={60}
               name="time"
               onChange={(e) => setCheckedTime(e.target.checked)}
-              onClick={(e) => setTIme(e.target.value)}
+              onClick={(e) => {
+                setTIme(e.target.value);
+                isPlayingClickFunc();
+              }}
             />
             <label htmlFor="time" style={{ margin: "5px" }}>
               {60} sec,
@@ -250,7 +339,10 @@ function App() {
               value={60 * 2}
               name="time"
               onChange={(e) => setCheckedTime(e.target.checked)}
-              onClick={(e) => setTIme(e.target.value)}
+              onClick={(e) => {
+                setTIme(e.target.value);
+                isPlayingClickFunc();
+              }}
             />
             <label htmlFor="time" style={{ margin: "5px" }}>
               {60 * 2} sec
@@ -264,7 +356,10 @@ function App() {
               value={60 * 3}
               name="time"
               onChange={(e) => setCheckedTime(e.target.checked)}
-              onClick={(e) => setTIme(e.target.value)}
+              onClick={(e) => {
+                setTIme(e.target.value);
+                isPlayingClickFunc();
+              }}
             />
             <label htmlFor="time" style={{ margin: "5px" }}>
               {60 * 3} sec
@@ -294,16 +389,22 @@ function App() {
             onChange={(e) => setCurrentInput(e.target.value)}
             ref={textInput}
           />
-          <ToastContainer className="foo" icon={false} />
+          <ToastContainer />
         </div>
       </div>
       <div style={{ display: start }} className="section">
-        <button onClick={handleStart} className="button is-info is-fullwidth">
+        <button onClick={()=> {
+          handleStart();
+          isPlayingClickFunc();
+          }} className="button is-info is-fullwidth">
           Start
         </button>
       </div>
       <div style={{ display: showResults }} className="section">
-        <button onClick={handleReStart} className="button is-info is-fullwidth">
+        <button onClick={()=> {
+          handleReStart();
+          isPlayingClickFunc();
+          }} className="button is-info is-fullwidth">
           restart
         </button>
       </div>
@@ -335,6 +436,7 @@ function App() {
         </div>
       </div>
       <div style={{ display: showResults }} className="section">
+        <ToastContainer className="foo" icon={false} />
         <div className="columns">
           <div className="column">
             <p className="is-size-5">Words per minute: </p>
@@ -345,9 +447,10 @@ function App() {
             <p className="has-text-info is-size-1">
               {isNaN(Math.round((correct / (correct + inCorrect)) * 100)) ? (
                 "0"
-              ) : (Math.round((correct / (correct + inCorrect)) * 100) >= 90) && (correct >=20) ? (
+              ) : Math.round((correct / (correct + inCorrect)) * 100) >= 90 &&
+                correct >= 20 ? (
                 <span>
-                  {Math.round((correct / (correct + inCorrect)) * 100)}% 
+                  {Math.round((correct / (correct + inCorrect)) * 100)}%
                   <p>Awesome!</p>
                 </span>
               ) : (
