@@ -127,14 +127,14 @@ function App() {
         return "has-background-success";
       }
       else if(currentChar.toLowerCase() === "backspace"){
-        return "has-background-success is-danger";
+        return "has-background-info";
       }
       else {
         return ""
       }
     }
     else if(wordIdx === currentWordIndex && currentCharIndex >= word[currentWordIndex].length) {
-      return "has-background-danger is-danger";
+      return "has-background-danger";
     }
     // else if(wordIdx === currentWordIndex && currentCharIndex === word[currentWordIndex].length) {
     //   return "has-background-info is-info";
@@ -153,17 +153,6 @@ function App() {
       textInput.current.focus();
     }
   }, [status]);
-
-  // useEffect(() => {
-  //   const savedNotes = JSON.parse(localStorage.getItem("timeSpeed"));
-  //   if (savedNotes) {
-  //     setWords(savedNotes);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("timeSpeed", JSON.stringify(word));
-  // }, [word]);
 
   return (
     <div className="App">
