@@ -125,11 +125,22 @@ function App() {
     ) {
       if (letter === currentChar) {
         return "has-background-success";
-      } else if (currentChar.toLowerCase() === "backspace") {
-        return "has-background-info";
-      } else {
-        return "has-background-danger";
       }
+      else if(currentChar.toLowerCase() === "backspace"){
+        return "has-background-success is-danger";
+      }
+      else {
+        return ""
+      }
+    }
+    else if(wordIdx === currentWordIndex && currentCharIndex >= word[currentWordIndex].length) {
+      return "has-background-danger is-danger";
+    }
+    // else if(wordIdx === currentWordIndex && currentCharIndex === word[currentWordIndex].length) {
+    //   return "has-background-info is-info";
+    // }
+    else {
+      return ""
     }
   }
 
