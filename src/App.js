@@ -2,8 +2,8 @@ import "./App.css";
 import React, { useState, useEffect, useRef } from "react";
 import randomWords from "random-words";
 import { v4 } from "uuid";
-import {toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css'
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
   const [time, setTIme] = useState(60);
@@ -40,6 +40,21 @@ function App() {
         } else {
           return prev - 1;
         }
+        if (prev === 30) {
+          toast.warn("Your time is remaining : 30!", {
+            icon: "⚠️",
+          });
+        }
+        if (prev === 20) {
+          toast.warn("Your time is remaining : 20!", {
+            icon: "⚠️",
+          });
+        }
+        if (prev === 10) {
+          toast.warn("Your time is remaining : 10!", {
+            icon: "⚠️",
+          });
+        }
       });
     }, 1000);
   };
@@ -47,26 +62,29 @@ function App() {
   const checkMatch = () => {
     const wordToCompare = word[currentWordIndex];
     const doesItMatch = wordToCompare === currentInput.trim().toLowerCase();
-    
+
     if (doesItMatch) {
       setCorrect(correct + 1);
-      toast.success("Correct!", {
-        icon: "🚀",
-      });
+      correct === 5 && toast.success("Good!", { icon: "🚀" });
+      correct === 10 && toast.success("Fine!", { icon: "🚀" });
+      correct === 15 && toast.success("Better!", { icon: "🚀" });
+      correct === 25 && toast.success("Recommended!", { icon: "🚀" });
+      correct === 30 && toast.success("Amazing!", { icon: "🚀" });
+      correct === 35 && toast.success("Astonishing!", { icon: "🚀" });
+      correct === 38 && toast.success("Cool!", { icon: "🚀" });
+      correct === 40 && toast.success("Master!", { icon: "🚀" });
+
       // let arr = [...word];
       // arr[currentWordIndex] = `${wordToCompare} `
       // setWords(arr)
     } else {
       setInCorrect(inCorrect + 1);
-      toast.error("Incorrect!", {
-        icon: "⚠️"
-      });
     }
   };
 
   const handleKeyDown = ({ keyCode, key }) => {
     // space keyWord
-    if(Number(keyCode) === 8){
+    if (Number(keyCode) === 8) {
       // alert("backSpace")
       setCurrentCharIndex(currentCharIndex - 1);
       setCurrentChar(key);
@@ -99,19 +117,21 @@ function App() {
   };
 
   function getCharClass(wordIdx, letter, letterIdx) {
-    if (currentWordIndex === wordIdx && letterIdx === currentCharIndex && currentChar && status === "started") {
-      if(letter === currentChar){
-        return "has-background-success"
-      } else if(currentChar.toLowerCase() === "backspace"){
-        return "has-background-info"
-      }
-      else {
-        return "has-background-danger"
+    if (
+      currentWordIndex === wordIdx &&
+      letterIdx === currentCharIndex &&
+      currentChar &&
+      status === "started"
+    ) {
+      if (letter === currentChar) {
+        return "has-background-success";
+      } else if (currentChar.toLowerCase() === "backspace") {
+        return "has-background-info";
+      } else {
+        return "has-background-danger";
       }
     }
   }
-
-
 
   useEffect(() => {
     setWords(randomWords(Number(nOfWords)));
@@ -296,7 +316,11 @@ function App() {
                   <span>
                     {w.split("").map((letter, index) => (
                       <span
-                        className={`${getCharClass(idx, letter, index)} bgStyled`}
+                        className={`${getCharClass(
+                          idx,
+                          letter,
+                          index
+                        )} bgStyled`}
                         key={index}
                       >
                         {letter}
@@ -319,10 +343,16 @@ function App() {
           <div className="column">
             <div className="is-size-5">Accuracy:</div>
             <p className="has-text-info is-size-1">
-              {isNaN(Math.round((correct / (correct + inCorrect)) * 100))
-                ? "0"
-                : Math.round((correct / (correct + inCorrect)) * 100)}
-              %
+              {isNaN(Math.round((correct / (correct + inCorrect)) * 100)) ? (
+                "0"
+              ) : (Math.round((correct / (correct + inCorrect)) * 100) >= 90) && (correct >=20) ? (
+                <span>
+                  {Math.round((correct / (correct + inCorrect)) * 100)}% 
+                  <p>Awesome!</p>
+                </span>
+              ) : (
+                Math.round((correct / (correct + inCorrect)) * 100)
+              )}
             </p>
           </div>
         </div>
