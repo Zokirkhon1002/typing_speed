@@ -130,7 +130,7 @@ function App() {
         return "has-background-info";
       }
       else {
-        return ""
+        return "has-background-danger";
       }
     }
     else if(wordIdx === currentWordIndex && currentCharIndex >= word[currentWordIndex].length) {
