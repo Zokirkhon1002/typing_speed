@@ -18,10 +18,15 @@ function App() {
     let audioInCorrect = document.getElementsByClassName("inkorrekt")[0];
     audioInCorrect.play()
   }
+  const isPlayingEndFunc = ()=>{
+    let audioEnd = document.getElementsByClassName("endSound")[0];
+    audioEnd.play()
+  }
+  
 
  
 
-  const [time, setTIme] = useState(11);
+  const [time, setTIme] = useState(60);
   const [nOfWords, setNOfWords] = useState(200);
   const [word, setWords] = useState([]);
   const [checked, setChecked] = useState(false);
@@ -177,6 +182,9 @@ function App() {
 
   useEffect(() => {
     if (time === 0) {
+      setTimeout(() => {
+        isPlayingEndFunc();
+      },1000)
       setTimeout(() => {
         toast.info("Made by Zokirkhon!", {
           icon: "🚀",
