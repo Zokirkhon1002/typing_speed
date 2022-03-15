@@ -8,14 +8,17 @@ import "react-toastify/dist/ReactToastify.min.css";
 function App() {
   const isPlayingClickFunc = ()=>{
     let audioClick = document.getElementsByClassName("klik")[0];
+    audioClick.pause()
     audioClick.play()
   }
   const isPlayingCorrectFunc = ()=>{
     let audioCorrect = document.getElementsByClassName("korrekt")[0];
+    audioCorrect.pause()
     audioCorrect.play()
   }
   const isPlayingInCorrectFunc = ()=>{
     let audioInCorrect = document.getElementsByClassName("inkorrekt")[0];
+    audioInCorrect.pause()
     audioInCorrect.play()
   }
   const isPlayingEndFunc = ()=>{
