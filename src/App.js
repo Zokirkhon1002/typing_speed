@@ -232,13 +232,6 @@ function App() {
         }, 16000);
       }
     }
-    if (time === 23) {
-      setTimeout(() => {
-          toast.info("20 seconds left!", {
-        icon: "⚠️",
-      });
-        }, 3000);
-    }
   }, [time, correct, inCorrect]);
 
   return (
