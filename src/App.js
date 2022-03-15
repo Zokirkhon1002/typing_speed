@@ -243,6 +243,7 @@ function App() {
 
   return (
     <div className="App">
+     <ToastContainer />
       <div
         style={{
           display: styleName2,
@@ -399,7 +400,6 @@ function App() {
             onChange={(e) => setCurrentInput(e.target.value)}
             ref={textInput}
           />
-          <ToastContainer />
         </div>
       </div>
       <div style={{ display: start }} className="section">
@@ -446,7 +446,6 @@ function App() {
         </div>
       </div>
       <div style={{ display: showResults }} className="section">
-        <ToastContainer className="foo" icon={false} />
         <div className="columns">
           <div className="column">
             <p className="is-size-5">Words per minute: </p>
