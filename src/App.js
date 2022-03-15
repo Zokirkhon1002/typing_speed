@@ -459,8 +459,8 @@ function App() {
                   <p>Awesome!</p>
                 </span>
               ) : (
-                Math.round((correct / (correct + inCorrect)) * 100)%
-              )}
+                Math.round((correct / (correct + inCorrect)) * 100)
+              )}%
             </p>
           </div>
         </div>
